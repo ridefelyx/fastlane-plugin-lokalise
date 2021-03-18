@@ -8,6 +8,7 @@ module Fastlane
         project_identifier = params[:project_identifier]
         destination = params[:destination]
         clean_destination = params[:clean_destination]
+<<<<<<< HEAD
         include_comments = params[:include_comments]
         original_filenames = params[:use_original]
 
@@ -20,6 +21,25 @@ module Fastlane
           export_sort: "first_added",
           include_comments: include_comments,
           replace_breaks: false
+=======
+        include_comments = params[:include_comments] ? 1 : 0
+        use_original = params[:use_original] ? 1 : 0
+        replace_breaks = params[:replace_breaks] ? 1 : 0
+        export_sort = params[:export_sort]
+
+        request_data = {
+          api_token: token,
+          id: project_identifier,
+          type: "strings",
+          use_original: use_original,
+          bundle_filename: "Localization.zip",
+          bundle_structure: "%LANG_ISO%.lproj/Localizable.%FORMAT%",
+          ota_plugin_bundle: 0,
+          export_empty: "base",
+          include_comments: include_comments,
+          replace_breaks: replace_breaks,
+          export_sort: export_sort
+>>>>>>> a6e1693cc564724333a570f5409c48f8abc099b7
         }
 
         filter_langs = params[:languages]
@@ -144,6 +164,14 @@ module Fastlane
                                        verify_block: proc do |value|
                                          UI.user_error! "Include comments should be true or false" unless [true, false].include? value
                                        end),
+            FastlaneCore::ConfigItem.new(key: :replace_breaks,
+                                       description: "Enable to replace line breaks in exported translations with \n",
+                                       optional: true,
+                                       is_string: false,
+                                       default_value: false,
+                                       verify_block: proc do |value|
+                                         UI.user_error! "Replace breaks should be true or false" unless [true, false].include? value
+                                       end),
             FastlaneCore::ConfigItem.new(key: :use_original,
                                        description: "Use original filenames/formats (bundle_structure parameter is ignored then)",
                                        optional: true,
@@ -152,6 +180,14 @@ module Fastlane
                                        verify_block: proc do |value|
                                          UI.user_error! "Use original should be true of false." unless [true, false].include?(value)
                                         end),
+            FastlaneCore::ConfigItem.new(key: :export_sort,
+                                        description: "Export key sort mode. Allowed value are first_added, last_added, last_updated, a_z, z_a",
+                                        optional: true,
+                                        is_string: true,
+                                        default_value: "first_added",
+                                        verify_block: proc do |value|
+                                          UI.user_error! "Export sort should be first_added, last_added, last_updated, a_z or z_a" unless %w[first_added last_added last_updated a_z z_a].include?(value)
+                                         end),
             FastlaneCore::ConfigItem.new(key: :tags,
                                         description: "Include only the keys tagged with a given set of tags",
                                         optional: true,
