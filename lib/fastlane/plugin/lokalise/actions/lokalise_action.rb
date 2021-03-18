@@ -8,7 +8,6 @@ module Fastlane
         project_identifier = params[:project_identifier]
         destination = params[:destination]
         clean_destination = params[:clean_destination]
-<<<<<<< HEAD
         include_comments = params[:include_comments]
         original_filenames = params[:use_original]
 
@@ -21,25 +20,6 @@ module Fastlane
           export_sort: "first_added",
           include_comments: include_comments,
           replace_breaks: false
-=======
-        include_comments = params[:include_comments] ? 1 : 0
-        use_original = params[:use_original] ? 1 : 0
-        replace_breaks = params[:replace_breaks] ? 1 : 0
-        export_sort = params[:export_sort]
-
-        request_data = {
-          api_token: token,
-          id: project_identifier,
-          type: "strings",
-          use_original: use_original,
-          bundle_filename: "Localization.zip",
-          bundle_structure: "%LANG_ISO%.lproj/Localizable.%FORMAT%",
-          ota_plugin_bundle: 0,
-          export_empty: "base",
-          include_comments: include_comments,
-          replace_breaks: replace_breaks,
-          export_sort: export_sort
->>>>>>> a6e1693cc564724333a570f5409c48f8abc099b7
         }
 
         filter_langs = params[:languages]

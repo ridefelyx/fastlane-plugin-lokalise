@@ -229,46 +229,11 @@ module Fastlane
           key_data[:translations].empty? ? nil : key_data
         end
 
-<<<<<<< HEAD
         def key_object_without_trans_from_metadata(key, metadata, for_itunes)
           key_data = {
             key_name: key,
             platforms: ['other']
-=======
-      def self.get_metadata_from_lokalise()
-        case @params[:platform]
-        when "ios"
-          valid_keys = metadata_key_file_itunes().keys
-          valid_languages = itunes_connect_languages_in_lokalise()
-          key_name = "key"
 
-        when "android"
-          valid_keys = metadata_key_file_googleplay().keys
-          valid_languages = google_play_languages_in_lokalise()
-        end
-
-        params = {
-          "include_translations" => 1,
-          "filter_platforms" => @params[:platform],
-          "filter_keys" => "#{valid_keys.join(',')}"
-        }
-        resp = make_request("projects/#{@params[:project_identifier]}/keys", params, :get)
-
-        metadata = {}
-        resp["keys"].each { |key| key.each
-          key["translations"].each { |translation_obj|
-            lang = translation_obj["language_iso"]
-            if valid_languages.include? lang
-              key_name = key["key_name"][@params[:platform]]
-              translation = translation_obj["translation"]
-            
-              if valid_keys.include?(key_name) && !translation.nil? && !translation.empty?
-                fixed_lang_name = fix_language_name(lang)
-                metadata[fixed_lang_name] = {} unless metadata.has_key?(fixed_lang_name)
-                metadata[fixed_lang_name] = metadata[fixed_lang_name].merge({key_name => translation})
-              end
-            end
->>>>>>> a6e1693cc564724333a570f5409c48f8abc099b7
           }
 
           key ? key_data : nil
@@ -382,7 +347,6 @@ module Fastlane
           }
         end
 
-<<<<<<< HEAD
         def metadata_key_file_googleplay
           {
             "googleplay.app.title" => "title",
@@ -391,22 +355,6 @@ module Fastlane
             "googleplay.app.changelogs" => "changelogs",
           }
         end
-=======
-      def self.itunes_to_lokalise_language_map()
-        return {
-          "en-US" => "en",
-          "de_DE" => "de",
-          "es_ES" => "es",
-          "fr_FR" => "fr",
-          "nl-NL" => "nl",
-          "nl-NL" => "nl",
-          "en-US" => "en",
-          "hi" => "hi_IN",
-          "zh-Hans" => "zh_CN",
-          "zh-Hant" => "zh_TW"
-        }
-      end
->>>>>>> a6e1693cc564724333a570f5409c48f8abc099b7
 
         def itunes_connect_languages_in_lokalise
           itunes_connect_languages.map { |lang|
